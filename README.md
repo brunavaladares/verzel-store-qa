@@ -36,7 +36,8 @@ Validação da entrega **VZS-142 · Cupom de desconto e frete grátis** (versão
 | Exploratório           | 17       | 15        | 1         | 1             |
 | Automação (Playwright) | 15       | 13        | 2         | 0             |
 
-- **2 bugs encontrados**, ambos confirmados na interface, na API e na automação: [BUG-01](docs/bugs/BUG-01.md) e [BUG-02](docs/bugs/BUG-02.md).
+- Na automação, os 2 ❌ são os testes que **reproduzem os bugs**. Eles são marcados para falhar enquanto o bug existir, por isso o Playwright exibe "15 passed" (veja a [seção 4.3](#43-resultado-esperado)).
+- **2 bugs encontrados**, ambos confirmados na execução manual e na automação: [BUG-01](docs/bugs/BUG-01.md) e [BUG-02](docs/bugs/BUG-02.md).
 - **Cobertura:** os 11 critérios de aceite (CA01 a CA11), os 4 endpoints da API e os 13 códigos de erro da documentação foram testados. A matriz completa está em [`docs/resultados.md`](docs/resultados.md#cobertura-da-documentação).
 
 ---
@@ -112,15 +113,17 @@ git clone https://github.com/brunavaladares/verzel-store-qa.git
 cd verzel-store-qa
 ```
 
-**2. Instalar as dependências**
+**2. Instalar o Playwright e as demais dependências**
 ```bash
 npm install
 ```
+Este comando baixa o **Playwright** (`@playwright/test`) e o TypeScript, nas versões definidas no `package.json` e no `package-lock.json`. Não é preciso instalar o Playwright separadamente.
 
-**3. Instalar o navegador usado pelos testes**
+**3. Baixar o navegador usado pelos testes**
 ```bash
 npx playwright install chromium
 ```
+O Playwright usa um Chromium próprio, baixado uma única vez (cerca de 150 MB).
 > No Linux, se faltar alguma biblioteca do sistema, use `npx playwright install --with-deps chromium`.
 
 **4. Rodar todos os testes**
@@ -132,7 +135,7 @@ npm test
 ```bash
 npm run report
 ```
-O relatório abre no navegador com cada teste, suas etapas (Dado, Quando, Então), as tags e, nos testes de bug, a anotação BUG-01 ou BUG-02.
+O relatório da última execução abre no navegador com cada teste, suas etapas (Dado, Quando, Então), as tags e, nos testes de bug, a anotação BUG-01 ou BUG-02. Ele só existe depois de rodar o passo 4. Para encerrar, use `Ctrl+C` no terminal.
 
 ### 4.3 Resultado esperado
 
@@ -222,7 +225,7 @@ Evidência da última execução: [`docs/evidencias/automacao`](docs/evidencias/
   await expect(resposta).toBeErroDaApi({ status: 422, codigo: 'CUPOM_EXPIRADO', campo: 'cupom' });
   ```
 - **Bugs marcados com `test.fail()`** e anotação do bug, como explicado na [seção 4.3](#43-resultado-esperado).
-- **TypeScript estrito** (`npm run typecheck`), sem dependências além do Playwright.
+- **TypeScript estrito** (`npm run typecheck`), sem bibliotecas além do Playwright e do próprio TypeScript.
 
 ---
 
@@ -272,7 +275,7 @@ Executados no formato de **sessões com missão e tempo definidos** (*Session-Ba
 
 **BUG-02:** a interface bloqueia a 6ª unidade, mas a API aceita qualquer quantidade (inclusive 1.000.000) e confirma o pedido com status 201. O erro `QUANTIDADE_MAXIMA_EXCEDIDA` da documentação nunca é retornado.
 
-Cada report traz ambiente, pré-condições, passos (interface e API), esperado e obtido com o JSON da resposta, impacto, causa provável e evidências.
+Cada report traz ambiente, pré-condições, passos para reproduzir, esperado e obtido com o JSON da resposta, impacto, causa provável e evidências.
 
 ---
 
