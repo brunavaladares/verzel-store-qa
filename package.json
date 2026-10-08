@@ -1,0 +1,30 @@
+{
+  "name": "verzel-store-qa",
+  "version": "1.0.0",
+  "description": "Testes da entrega VZS-142 (cupom de desconto e frete grátis) da Verzel Store",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:e2e": "playwright test --project=e2e",
+    "test:bugs": "playwright test --grep @bug",
+    "test:ui": "playwright test --ui",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunavaladares/verzel-store-qa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunavaladares/verzel-store-qa/issues"
+  },
+  "homepage": "https://github.com/brunavaladares/verzel-store-qa#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2"
+  }
+}
